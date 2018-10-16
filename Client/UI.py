@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:/Users/user/Desktop/FileDownloader/Client/design.ui'
+# Form implementation generated from reading ui file 'C:\Users\user\Desktop\FileDownloader\Networt-DB-Project\Client/design.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -66,10 +66,10 @@ class Ui_FileDownloader(object):
         self.label_connect.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_connect.setObjectName(_fromUtf8("label_connect"))
         self.btn_download = QtGui.QPushButton(self.MainWidget)
-        self.btn_download.setGeometry(QtCore.QRect(370, 520, 101, 31))
+        self.btn_download.setGeometry(QtCore.QRect(370, 490, 101, 31))
         self.btn_download.setObjectName(_fromUtf8("btn_download"))
         self.label_download = QtGui.QLabel(self.MainWidget)
-        self.label_download.setGeometry(QtCore.QRect(10, 560, 461, 71))
+        self.label_download.setGeometry(QtCore.QRect(10, 530, 461, 61))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -80,20 +80,23 @@ class Ui_FileDownloader(object):
         self.label_download.setWordWrap(True)
         self.label_download.setObjectName(_fromUtf8("label_download"))
         self.input_file = QtGui.QLineEdit(self.MainWidget)
-        self.input_file.setGeometry(QtCore.QRect(10, 520, 351, 31))
+        self.input_file.setGeometry(QtCore.QRect(10, 490, 351, 31))
         self.input_file.setFocusPolicy(QtCore.Qt.NoFocus)
         self.input_file.setReadOnly(True)
         self.input_file.setObjectName(_fromUtf8("input_file"))
         self.input_path = QtGui.QLineEdit(self.MainWidget)
         self.input_path.setGeometry(QtCore.QRect(10, 10, 321, 31))
+        self.input_path.setReadOnly(True)
         self.input_path.setObjectName(_fromUtf8("input_path"))
         self.btn_path = QtGui.QPushButton(self.MainWidget)
         self.btn_path.setGeometry(QtCore.QRect(340, 10, 131, 31))
         self.btn_path.setObjectName(_fromUtf8("btn_path"))
         self.list_item = QtGui.QListWidget(self.MainWidget)
-        self.list_item.setGeometry(QtCore.QRect(10, 130, 461, 381))
+        self.list_item.setEnabled(True)
+        self.list_item.setGeometry(QtCore.QRect(10, 130, 461, 351))
         self.list_item.setFrameShape(QtGui.QFrame.StyledPanel)
         self.list_item.setFrameShadow(QtGui.QFrame.Sunken)
+        self.list_item.setProperty("showDropIndicator", False)
         self.list_item.setObjectName(_fromUtf8("list_item"))
         self.label_desc = QtGui.QLabel(self.MainWidget)
         self.label_desc.setGeometry(QtCore.QRect(10, 99, 211, 31))
@@ -103,14 +106,15 @@ class Ui_FileDownloader(object):
         self.btn_disconnect.setGeometry(QtCore.QRect(260, 89, 61, 31))
         self.btn_disconnect.setFlat(False)
         self.btn_disconnect.setObjectName(_fromUtf8("btn_disconnect"))
+        self.bar_progress = QtGui.QProgressBar(self.MainWidget)
+        self.bar_progress.setGeometry(QtCore.QRect(7, 602, 461, 21))
+        self.bar_progress.setProperty("value", 0)
+        self.bar_progress.setOrientation(QtCore.Qt.Horizontal)
+        self.bar_progress.setTextDirection(QtGui.QProgressBar.TopToBottom)
+        self.bar_progress.setObjectName(_fromUtf8("bar_progress"))
         FileDownloader.setCentralWidget(self.MainWidget)
 
         self.retranslateUi(FileDownloader)
-        QtCore.QObject.connect(self.btn_path, QtCore.SIGNAL(_fromUtf8("clicked()")), self.btn_path_clicked)
-        QtCore.QObject.connect(self.btn_connect, QtCore.SIGNAL(_fromUtf8("clicked()")), self.btn_connect_clicked)
-        QtCore.QObject.connect(self.btn_disconnect, QtCore.SIGNAL(_fromUtf8("clicked()")), self.btn_disconnect_clicked)
-        QtCore.QObject.connect(self.btn_download, QtCore.SIGNAL(_fromUtf8("clicked()")), self.btn_download_clicked)
-        QtCore.QObject.connect(self.list_item, QtCore.SIGNAL(_fromUtf8("itemDoubleClicked(QListWidgetItem*)")), self.list_item_clicked)
         QtCore.QMetaObject.connectSlotsByName(FileDownloader)
 
     def retranslateUi(self, FileDownloader):
@@ -121,8 +125,9 @@ class Ui_FileDownloader(object):
         self.btn_download.setText(_translate("FileDownloader", "다운로드", None))
         self.label_download.setText(_translate("FileDownloader", "다운로드 대기 중...", None))
         self.input_file.setPlaceholderText(_translate("FileDownloader", "다운로드 받을 파일을 더블클릭하세요.", None))
-        self.input_path.setPlaceholderText(_translate("FileDownloader", "다운로드 디렉토리를 입력해주세요.", None))
+        self.input_path.setPlaceholderText(_translate("FileDownloader", "다운로드 디렉토리를 지정해주세요.", None))
         self.btn_path.setText(_translate("FileDownloader", "디렉토리 설정", None))
         self.label_desc.setText(_translate("FileDownloader", "서버의 공유 파일 리스트", None))
         self.btn_disconnect.setText(_translate("FileDownloader", "해제", None))
+        self.bar_progress.setFormat(_translate("FileDownloader", "%p%", None))
 

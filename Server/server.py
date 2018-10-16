@@ -1,6 +1,7 @@
 import socketserver
-from os.path import exists, isfile
+from os.path import exists, isfile, getsize
 from os import listdir, getcwd
+import pymysql
 
 host = ""
 port = 9009
@@ -18,6 +19,10 @@ class TCPHandler(socketserver.BaseRequestHandler):
             self.request.send(str([""]).encode())
             return
 
+        if fileName.startswith(":"):
+            size = getsize(shareDir + "/" + fileName.replace(":", ""))
+            self.request.send(str(size).encode())
+
         if fileName == ".":
             data = listdir(shareDir) # 공유를 허용한 디렉토리의 파일 목록을 리스트로 받아옴
             self.request.send(str(data).encode()) # 리스트를 문자열로 변환하여 보냄
@@ -26,6 +31,19 @@ class TCPHandler(socketserver.BaseRequestHandler):
             return
 
         print("[%s]에게 파일 [%s] 전송 시작..." % (self.client_address[0], fileName))
+        
+        conn = pymysql.connect(host = "localhost", user = "root", password = "root", db = "downloadHistory", charset = "UTF8")
+        cursor = conn.cursor()
+        
+        cursor.execute("select count from files where fileName = %s;", (fileName, ))
+        count = int(cursor.fetchone()[0])
+
+        cursor.execute("update files set count = %s where fileName = %s;", (count + 1, fileName))
+        conn.commit()
+        
+        cursor.close()
+        conn.close()
+
         try:
             with open(shareDir + "/" + fileName, "rb") as f:
                 try:
@@ -40,7 +58,7 @@ class TCPHandler(socketserver.BaseRequestHandler):
                     print(e)
 
                 else:
-                    print("전송 완료 [%s], 전송량 [%d]" % (fileName, data_transfered))
+                    print("전송 완료 [%s], 전송량 [%d Byte]" % (fileName, data_transfered))
 
         except Exception as e:
             print("파일 [%s] 열기 실패" % fileName)
@@ -48,6 +66,39 @@ class TCPHandler(socketserver.BaseRequestHandler):
 
 class FileServer(socketserver.TCPServer, socketserver.ThreadingMixIn):
     pass
+
+def database_connect(shareDir):
+    print("데이터베이스와 연결합니다.")
+
+    conn = pymysql.connect(host = "localhost", user = "root", password = "root", db = "downloadHistory", charset = "UTF8")
+    cursor = conn.cursor()
+    cursor.execute("create table if not exists files (fileName VARCHAR(50), count smallint, PRIMARY KEY (fileName));")
+    
+    sqlList = list()
+    fileList = listdir(shareDir)
+
+    cursor.execute("select fileName from files;")
+    temp = cursor.fetchall()
+    for i in temp:
+        sqlList.append(i[0])
+
+    print(sqlList)
+    print(fileList)
+
+    for i in sqlList:
+        if not i in fileList:
+            cursor.execute("delete from files where fileName = %s;", (i, ))
+            print("데이터베이스에서 %s를 지웠습니다." % i)
+
+    for i in fileList:
+        if not i in sqlList:
+            cursor.execute("insert into files values (%s, %s);", (i, 0))
+            print("데이터베이스에 %s를 추가했습니다." % i)
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
 
 def run_server():
     print("파일 서버를 시작합니다.")
@@ -71,4 +122,5 @@ except FileNotFoundError:
         shareDir = input("공유를 원하는 경로를 입력해주세요. >> ")
         f.write(shareDir)
 
+database_connect(shareDir)
 run_server()
