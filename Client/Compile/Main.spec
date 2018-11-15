@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['Main.py'],
-             pathex=['C:\\Users\\user\\Desktop\\FileDownloader\\Client'],
+             pathex=['C:\\Users\\Muho\\Desktop\\FileDownloader\\Networt-DB-Project\\Client'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -29,4 +29,4 @@ exe = EXE(pyz,
           strip=False,
           upx=True,
           runtime_tmpdir=None,
-          console=True )
+          console=False )
