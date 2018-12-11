@@ -1,5 +1,5 @@
 import socketserver
-from os.path import exists, isfile, getsize
+from os.path import exists, isfile, getsize, join
 from os import listdir, getcwd
 import pymysql
 import time
@@ -21,11 +21,11 @@ class TCPHandler(socketserver.BaseRequestHandler):
 
         if fileName.startswith(":"):
             func = fileName.replace(":", "").split()[0]
-            arg = fileName.replace(":{} ".format(func), "")
+            arg = fileName.replace(":%s " % func, "")
 
-            exec("self.{}(shareDir, arg)".format(func))
+            exec("self.%s(shareDir, arg)" % func)
 
-        if not exists(shareDir + "/" + fileName) or not isfile(shareDir + "/" + fileName):
+        if not exists(join(shareDir, fileName)) or not isfile(join(shareDir, fileName)):
             return
 
         print("[%s] 연결됨" % self.client_address[0])
@@ -34,7 +34,7 @@ class TCPHandler(socketserver.BaseRequestHandler):
         
         conn = pymysql.connect(host = "localhost", user = "root", password = "root", autocommit = True, db = "downloadHistory", charset = "UTF8") # DB와 연결함
         cursor = conn.cursor() # 커서를 받아옴
-        
+
         cursor.execute("select count from files where fileName = %s;", (fileName, )) # 커서를 통해서 명령어 입력, 인자로 튜플을 넣어줘야 한다.
         count = int(cursor.fetchone()[0]) # DB로부터 count를 받아온다
 
@@ -46,20 +46,14 @@ class TCPHandler(socketserver.BaseRequestHandler):
         try:
             with open(shareDir + "/" + fileName, "rb") as f:
                 try:
-                    data_transfered = 0
-                    data = f.read(1024)
-
-                    while data:
-                        data_transfered += self.request.send(data)
-                        data = f.read(1024)
+                    data_transfered = self.request.sendfile(f)
                 except Exception as e:
                     print("파일 [%s] 전송 실패" % fileName)
                     print(e)
-
                 else:
                     _time = int(time.time() - startTime)
-                    print("전송 완료 [{}], 전송량 [{} Byte]".format(fileName, data_transfered),
-                        "전송 시간 : [{}h : {}m : {}s]".format(_time // 3600, (_time // 60) % 60, _time % 60), sep = "\n")
+                    print("전송 완료 [%s], 전송량 [%s Byte]" % (fileName, data_transfered),
+                        "전송 시간 : [%sh : %sm : %ss]" % (_time // 3600, (_time // 60) % 60, _time % 60), sep = "\n")
 
         except Exception as e:
             print("파일 [%s] 열기 실패" % fileName)
@@ -83,13 +77,11 @@ def database_connect(shareDir):
     cursor.execute("set sql_notes = 0;")
     cursor.execute("create table if not exists files (fileName VARCHAR(50), count smallint, PRIMARY KEY (fileName));")
     
-    sqlList = list()
     fileList = listdir(shareDir)
 
     cursor.execute("select fileName from files;")
     temp = cursor.fetchall()
-    for i in temp:
-        sqlList.append(i[0])
+    sqlList = [i[0] for i in temp]
 
     for i in sqlList:
         if not i in fileList:
