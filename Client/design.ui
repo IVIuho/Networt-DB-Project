@@ -31,6 +31,9 @@
   <property name="windowTitle">
    <string>파일 다운로더</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(65, 65, 65);</string>
+  </property>
   <property name="toolButtonStyle">
    <enum>Qt::ToolButtonIconOnly</enum>
   </property>
@@ -74,6 +77,9 @@
     <property name="focusPolicy">
      <enum>Qt::StrongFocus</enum>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
     <property name="inputMask">
      <string/>
     </property>
@@ -105,6 +111,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(240, 240, 240);</string>
+    </property>
     <property name="text">
      <string>접속</string>
     </property>
@@ -122,10 +131,13 @@
      </rect>
     </property>
     <property name="text">
-     <string>접속 대기 중...</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;접속 대기 중...&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+    <property name="wordWrap">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_download">
@@ -139,6 +151,9 @@
       <width>101</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(240, 240, 240);</string>
     </property>
     <property name="text">
      <string>다운로드</string>
@@ -169,7 +184,7 @@
      <enum>Qt::LeftToRight</enum>
     </property>
     <property name="text">
-     <string>다운로드 대기 중...</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;다운로드 대기 중...&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="wordWrap">
      <bool>true</bool>
@@ -187,6 +202,9 @@
     <property name="focusPolicy">
      <enum>Qt::NoFocus</enum>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
     <property name="readOnly">
      <bool>true</bool>
     </property>
@@ -203,6 +221,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
     <property name="readOnly">
      <bool>true</bool>
     </property>
@@ -218,6 +239,9 @@
       <width>131</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(240, 240, 240);</string>
     </property>
     <property name="text">
      <string>디렉토리 설정</string>
@@ -261,7 +285,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>서버의 공유 파일 리스트</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;서버의 공유 파일 리스트&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_disconnect">
@@ -275,6 +299,9 @@
       <width>61</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(240, 240, 240);</string>
     </property>
     <property name="text">
      <string>해제</string>
@@ -293,7 +320,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>0%</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;0%&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
