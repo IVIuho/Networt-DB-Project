@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['Main.py'],
-             pathex=['C:\\Users\\Muho\\Desktop\\FileDownloader\\Networt-DB-Project\\Client'],
+             pathex=['D:\\GitHub\\Networt-DB-Project\\Client'],
              binaries=[],
              datas=[],
              hiddenimports=[],
